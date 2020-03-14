@@ -83,7 +83,17 @@
                       show: true
                   }
               }],
-
+              tooltip: { // 鼠标悬浮提示
+                  formatter: function (params) { // 允许我们自定义悬浮提示的内容
+                      console.log(params);
+                      // return 你需要提示的内容
+                      return `累计确诊：${params.data.value}<br/>
+                      当前确诊：${params.data.zuixin}<br/>
+                      治愈：${params.data.zhiyu}<br/>
+                      死亡：${params.data.siwang}<br/>
+                      `;
+                  }
+              }
           };
 
         myChart.setOption(option);
