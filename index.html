@@ -4,10 +4,13 @@
     <meta charset="utf-8">
     <title>疫情地图</title>
     <link rel="stylesheet" href="layui/css/layui.css">
+    <script src="echarts.min.js"></script>
+    <script src="china.js"></script>
+    <script src="jquery-1.12.4.min.js"></script>
   </head>
   <body>
     <!-- 地图的位置 -->
-    <div class="layui-main">
+    <div class="layui-main" id="map" style="width: 800px; height:600px;">
         地图
     </div>
     <!-- 手风琴的位置 -->
@@ -33,7 +36,12 @@
       </div>
 
     <script type="layui/layui.js">
-
+    </script>
+    <script type="text/javascript">
+    $.get("http://api.tianapi.com/txapi/ncovcity/index?key=5d4fb67d8bd16c1fd371311e334a4bd0",
+        function (data, status) {
+            console.log(data);//数据
+        });
     </script>
   </body>
 </html>
