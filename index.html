@@ -52,13 +52,41 @@
               });
           });
           arr.push({
-              name: '南海诸岛', /
+              name: '南海诸岛',
               value: '未统计',
               zuixin: '未统计',
               zhiyu: '未统计',
               siwang: '未统计'
           });
           console.log(arr);
+
+          var myChart = echarts.init(document.getElementById('map'));
+
+          // 2. 配置
+          var option = {
+              // 标题部分
+              title: {
+                  text: '抗击疫情',
+                  textStyle: {
+                      fontSize: 28
+                  },
+                  left: 'center',
+                  subtextStyle: {
+                      fontSize: 14
+                  }
+              },
+              series: [{
+                  type: 'map',
+                  map: 'china',
+                  data: arr,
+                  label: {
+                      show: true
+                  }
+              }],
+
+          };
+
+        myChart.setOption(option);
         });
     </script>
   </body>
