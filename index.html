@@ -40,7 +40,25 @@
     <script type="text/javascript">
     $.get("http://api.tianapi.com/txapi/ncovcity/index?key=5d4fb67d8bd16c1fd371311e334a4bd0",
         function (data, status) {
-            console.log(data);//数据
+          var arr = [];
+          // 处理数据，成地图需要的数据结构
+          data.newslist.forEach(item => {
+              arr.push({
+                  name: item.provinceShortName,
+                  value: item.confirmedCount,
+                  zuixin: item.currentConfirmedCount,
+                  zhiyu: item.curedCount,
+                  siwang: item.deadCount
+              });
+          });
+          arr.push({
+              name: '南海诸岛', /
+              value: '未统计',
+              zuixin: '未统计',
+              zhiyu: '未统计',
+              siwang: '未统计'
+          });
+          console.log(arr);
         });
     </script>
   </body>
