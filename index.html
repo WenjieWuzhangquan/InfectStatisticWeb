@@ -12,7 +12,7 @@
     </script>
   </head>
 
-  <style> 
+  <style>
 
 
 
@@ -39,10 +39,16 @@
   <body>
     <!-- 地图的位置 -->
     <div class="layui-main" id="map" style="width: 800px; height:600px;">
-        地图
+
     </div>
     <div class="layui-main">
-      <input id="oText1" type="text" value=""/>
+      <select id="select1">
+        <option value="2021-02-30">2021-02-30</option>
+        <option value="2021-02-29">2021-02-29</option>
+        <option value="2021-02-28">2021-02-28</option>
+        <option value="2021-02-27">2021-02-27</option>
+        <option value="2021-02-26">2021-02-26</option>
+      </select>
       <input id="oBtn1" type="button" value="按钮"/>
     </div>
     <!-- 手风琴的位置 -->
@@ -143,7 +149,7 @@
                           <td>{{e.deadCount}}</td>
                       </tr>
                       {{# }); }}
-                      
+
                   </tbody>
               </table>
           </div>
@@ -174,8 +180,8 @@
 
 
   <!-- 引入所需的JS文件 -->
- 
-    
+
+
     <div class = "layui-main">
       <div class="VirusHot_1-1-209_32AY4F">
         <header class="VirusHot_1-1-209_3DaguJ">今日疫情热搜</header>
@@ -246,7 +252,7 @@
     xxx=xxx+oText.value;
     window.onload=function() {
       oBtn=document.getElementById("oBtn1");
-      var oText=document.getElementById("oText1");
+      var oText=document.getElementById("select1");
       oBtn.onclick=function() {
       xxx=xxx+oText.value;
       $.get(xxx,
