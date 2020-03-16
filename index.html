@@ -38,6 +38,10 @@
     <div class="layui-main" id="map" style="width: 800px; height:600px;">
         地图
     </div>
+    <div class="layui-main">
+      <input id="oText1" type="text" value=""/>
+      <input id="oBtn1" type="button" value="按钮"/>
+    </div>
     <!-- 手风琴的位置 -->
     <div class="layui-main layui-nav layui-bg-green">
       <div class="layui-container" style="height:30px;line-height:30px;">
@@ -124,88 +128,99 @@
     <script type="layui/layui.js">
     </script>
     <script type="text/javascript">
-    $.get("http://api.tianapi.com/txapi/ncovcity/index?key=5d4fb67d8bd16c1fd371311e334a4bd0",
-        function (data, status) {
-          var arr = [];
-          // 处理数据，成地图需要的数据结构
-          data.newslist.forEach(item => {
-              arr.push({
-                  name: item.provinceShortName,
-                  value: item.confirmedCount,
-                  zuixin: item.currentConfirmedCount,
-                  zhiyu: item.curedCount,
-                  siwang: item.deadCount
-              });
+    var oText="2020-02-1";
+    var oBtn;
+    var xxx="http://api.tianapi.com/txapi/ncovcity/index?key=5d4fb67d8bd16c1fd371311e334a4bd0&";
+    xxx=xxx+oText.value;
+    window.onload=function() {
+      oBtn=document.getElementById("oBtn1");
+      var oText=document.getElementById("oText1");
+      oBtn.onclick=function() {
+      xxx=xxx+oText.value;
+      $.get(xxx,
+          function (data, status) {
+            var arr = [];
+            // 处理数据，成地图需要的数据结构
+            data.newslist.forEach(item => {
+                arr.push({
+                    name: item.provinceShortName,
+                    value: item.confirmedCount,
+                    zuixin: item.currentConfirmedCount,
+                    zhiyu: item.curedCount,
+                    siwang: item.deadCount
+                });
+            });
+            arr.push({
+                name: '南海诸岛',
+                value: '未统计',
+                zuixin: '未统计',
+                zhiyu: '未统计',
+                siwang: '未统计'
+            });
+            console.log(arr);
+
+            var myChart = echarts.init(document.getElementById('map'));
+
+            // 2. 配置
+            var option = {
+                // 标题部分
+                title: {
+                    text: '抗击疫情',
+                    textStyle: {
+                        fontSize: 28
+                    },
+                    left: 'center',
+                    subtextStyle: {
+                        fontSize: 14
+                    }
+                },
+                series: [{
+                    type: 'map',
+                    map: 'china',
+                    data: arr,
+                    label: {
+                        show: true
+                    }
+                }],
+                tooltip: { // 鼠标悬浮提示
+                    formatter: function (params) { // 允许我们自定义悬浮提示的内容
+                        console.log(params);
+                        // return 你需要提示的内容
+                        return `累计确诊：${params.data.value}<br/>
+                        当前确诊：${params.data.zuixin}<br/>
+                        治愈：${params.data.zhiyu}<br/>
+                        死亡：${params.data.siwang}<br/>
+                        `;
+                    }
+                },
+                visualMap: {
+                    type: 'piecewise',
+                    pieces: [
+                        { gt: 10000 }, // 大于10000
+                        { gt: 5000, lte: 10000 },
+                        { gt: 1000, lte: 5000 },
+                        { gt: 500, lte: 1000 },  // (900, 1500]
+                        { gt: 100, lte: 500 },  // (310, 1000]
+                        { gt: 10, lte: 100 },   // (200, 300]
+                        { gt: 0, lte: 10 },       // (0, 10]
+                    ],
+                    inRange: {
+                        color: ['#ffcfc3', '#eda595', '#d27b64', '#d5462a', '#a8352e', '#6a211d', '#562a2a']
+                    }
+                }
+            };
+
+          myChart.setOption(option);
+          myChart.on('click', function (params) {
+            //  alert(params.name);
+            var provinceName =params.name;
+        //    window.location.replace("安徽.html");
+            provinceName=provinceName+".html";
+            window.open(provinceName);
           });
-          arr.push({
-              name: '南海诸岛',
-              value: '未统计',
-              zuixin: '未统计',
-              zhiyu: '未统计',
-              siwang: '未统计'
           });
-          console.log(arr);
-
-          var myChart = echarts.init(document.getElementById('map'));
-
-          // 2. 配置
-          var option = {
-              // 标题部分
-              title: {
-                  text: '抗击疫情',
-                  textStyle: {
-                      fontSize: 28
-                  },
-                  left: 'center',
-                  subtextStyle: {
-                      fontSize: 14
-                  }
-              },
-              series: [{
-                  type: 'map',
-                  map: 'china',
-                  data: arr,
-                  label: {
-                      show: true
-                  }
-              }],
-              tooltip: { // 鼠标悬浮提示
-                  formatter: function (params) { // 允许我们自定义悬浮提示的内容
-                      console.log(params);
-                      // return 你需要提示的内容
-                      return `累计确诊：${params.data.value}<br/>
-                      当前确诊：${params.data.zuixin}<br/>
-                      治愈：${params.data.zhiyu}<br/>
-                      死亡：${params.data.siwang}<br/>
-                      `;
-                  }
-              },
-              visualMap: {
-                  type: 'piecewise',
-                  pieces: [
-                      { gt: 10000 }, // 大于10000
-                      { gt: 5000, lte: 10000 },
-                      { gt: 1000, lte: 5000 },
-                      { gt: 500, lte: 1000 },  // (900, 1500]
-                      { gt: 100, lte: 500 },  // (310, 1000]
-                      { gt: 10, lte: 100 },   // (200, 300]
-                      { gt: 0, lte: 10 },       // (0, 10]
-                  ],
-                  inRange: {
-                      color: ['#ffcfc3', '#eda595', '#d27b64', '#d5462a', '#a8352e', '#6a211d', '#562a2a']
-                  }
-              }
-          };
-
-        myChart.setOption(option);
-        myChart.on('click', function (params) {
-          //  alert(params.name);
-          var provinceName =params.name;
-      //    window.location.replace("安徽.html");
-          provinceName=provinceName+".html";
-          window.open(provinceName);
-        });
-        });
+      }
+    }
 
     </script>
 
