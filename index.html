@@ -9,7 +9,7 @@
     <script src="jquery-1.12.4.min.js"></script>
   </head>
   <style> 
-    
+
 
     .VirusHot_1-1-209_32AY4F {
     margin-top: 2.375rem;
@@ -57,6 +57,115 @@
         </div>
       </div>
     </div>
+    <div class="layui-main">
+      <div id="view" class="layui-collapse" lay-accordion>
+          <div class="layui-colla-item layui-row">
+              <h2 class="layui-colla-title">
+                  <span class="layui-col-md4">湖北</span>
+                  <span class="layui-col-md2">62032</span>
+                  <span class="layui-col-md2">40111</span>
+                  <span class="layui-col-md2">20000</span>
+                  <span class="layui-col-md2">2000</span>
+              </h2>
+              <div class="layui-colla-content">
+                  <!-- // 某个省的市，比如武汉、孝感、潜江。。。 -->
+                  <table class="layui-table" lay-skin="nob">
+                      <colgroup>
+                          <col width="370">
+                          <col width="180">
+                          <col width="180">
+                          <col width="180">
+                          <col>
+                      </colgroup>
+                      <tbody>
+                          <tr>
+                              <td>武汉</td>
+                              <td>33333</td>
+                              <td>33333</td>
+                              <td>33333</td>
+                              <td>33333</td>
+                          </tr>
+                          <tr>
+                              <td>孝感</td>
+                              <td>2222</td>
+                              <td>222</td>
+                              <td>2222</td>
+                              <td>222</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+
+      </div>
+  </div>
+
+  <script src="layui/layui.js"></script>
+  <script src="data.js"></script>
+
+  <script id="demo" type="text/html">
+      {{#  layui.each(d.newslist, function(index, item){ }}
+      <div class="layui-colla-item layui-row">
+          <h2 class="layui-colla-title">
+              <span class="layui-col-md4">{{ item.provinceName }}</span>
+              <span class="layui-col-md2">{{item.confirmedCount}}</span>
+              <span class="layui-col-md2">{{item.currentConfirmedCount}}</span>
+              <span class="layui-col-md2">{{item.curedCount}}</span>
+              <span class="layui-col-md2">{{item.deadCount}}</span>
+          </h2>
+          <div class="layui-colla-content">
+              <!-- // 某个省的市，比如武汉、孝感、潜江。。。 -->
+              <table class="layui-table" lay-skin="nob">
+                  <colgroup>
+                      <col width="370">
+                      <col width="180">
+                      <col width="180">
+                      <col width="180">
+                      <col>
+                  </colgroup>
+                  <tbody>
+                      {{# layui.each(item.cities, function (i, e) {}}
+                      <tr>
+                          <td>{{e.cityName}}</td>
+                          <td>{{e.confirmedCount}}</td>
+                          <td>{{e.currentConfirmedCount}}</td>
+                          <td>{{e.curedCount}}</td>
+                          <td>{{e.deadCount}}</td>
+                      </tr>
+                      {{# }); }}
+                      
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      {{#  }); }}
+  </script>
+
+  <script>
+      layui.use('laytpl', function () {
+          var laytpl = layui.laytpl;
+
+          var getTpl = demo.innerHTML
+              , view = document.getElementById('view');
+          laytpl(getTpl).render(data, function (html) {
+              view.innerHTML = html;
+          });
+      });
+  </script>
+
+  <script>
+      //注意：折叠面板 依赖 element 模块，否则无法进行功能性操作
+      layui.use('element', function () {
+          var element = layui.element;
+
+          //…
+      });
+  </script>
+
+
+  <!-- 引入所需的JS文件 -->
+ 
+    
     <div class = "layui-main">
       <div class="VirusHot_1-1-209_32AY4F">
         <header class="VirusHot_1-1-209_3DaguJ">今日疫情热搜</header>
