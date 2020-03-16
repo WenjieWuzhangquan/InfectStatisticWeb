@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>疫情地图</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <script src="echarts.min.js"></script>
+    <script src="china.js"></script>
+    <script src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
+    <script src="layui/lay/modules/layer.js">
+
+    </script>
+  </head>
+
+  <style>
+
+
+    .content {
+            width: 200px;
+            height: 40px;
+            margin: 0 auto;
+        }
+    .VirusHot_1-1-209_3DaguJ{
+      font: 30px;
+      font-size: larger;
+      width: 200px;
+      height: 40px;
+      margin: 0 auto;
+    }
+    .VirusHot_1-1-209_3BslNU{
+      font: 10px Arial;
+      color:#999999;
+    }
+    .VirusHot_1-1-209_fTZdJ5{
+      width: 200px;
+      height: 40px;
+      margin: 0 auto;
+    }
+    .VirusHot_1-1-209_2fMOKn{
+      padding: 16px;
+    }
+    .ItemSort_1-1-209_3RnjLW{
+      color: brown;
+    }
+    .ItemSort_1-1-209_UWl8aO{
+      color: chocolate;
+    }
+
+
+    .VirusHot_1-1-209_32AY4F {
+    margin-top: 2.375rem;
+    margin-bottom: 2.2rem;
+    background-color: #f5f6f7;
+    padding: 0 .625rem .55rem;
+    border-radius: .5rem;
+
+    }
+    .VirusHot_1-1-209_3MnUmn {
+        margin-bottom: 0;
+    }
+
+
+    .VirusHot_1-1-209_32AY4F {
+        margin-top: 2.375rem;
+        margin-bottom: 2.2rem;
+        background-color: #f5f6f7;
+        padding: 0 .625rem .55rem;
+        border-radius: .5rem;
+    }</style>
+  <body>
+   
+    <!-- 地图的位置 -->
+    <div class="layui-main" id="map" style="width: 800px; height:600px;">
+
+    </div>
+    <div class="context">
+      <select id="select1">
+        <option value="2021-02-30">2021-02-30</option>
+        <option value="2021-02-29">2021-02-29</option>
+        <option value="2021-02-28">2021-02-28</option>
+        <option value="2021-02-27">2021-02-27</option>
+        <option value="2021-02-26">2021-02-26</option>
+      </select>
+      <input id="oBtn1" type="button" value="按钮"/>
+    </div>
+    <!-- 手风琴的位置 -->
+    <div class="layui-main layui-nav layui-bg-green">
+      <div class="layui-container" style="height:30px;line-height:30px;">
+        <div class="layui-row">
+          <div class="layui-col-md4">
+            地区
+          </div>
+          <div class="layui-col-md2">
+            疑似
+          </div>
+          <div class="layui-col-md2">
+            确诊
+          </div>
+          <div class="layui-col-md2">
+            治愈
+          </div>
+          <div class="layui-col-md2">
+            死亡
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layui-main">
+      <div id="view" class="layui-collapse" lay-accordion>
+          <div class="layui-colla-item layui-row">
+              <h2 class="layui-colla-title">
+                  <span class="layui-col-md4">湖北</span>
+                  <span class="layui-col-md2">62032</span>
+                  <span class="layui-col-md2">40111</span>
+                  <span class="layui-col-md2">20000</span>
+                  <span class="layui-col-md2">2000</span>
+              </h2>
+              <div class="layui-colla-content">
+                  <!-- // 某个省的市，比如武汉、孝感、潜江。。。 -->
+                  <table class="layui-table" lay-skin="nob">
+                      <colgroup>
+                          <col width="370">
+                          <col width="180">
+                          <col width="180">
+                          <col width="180">
+                          <col>
+                      </colgroup>
+                      <tbody>
+                          <tr>
+                              <td>武汉</td>
+                              <td>33333</td>
+                              <td>33333</td>
+                              <td>33333</td>
+                              <td>33333</td>
+                          </tr>
+                          <tr>
+                              <td>孝感</td>
+                              <td>2222</td>
+                              <td>222</td>
+                              <td>2222</td>
+                              <td>222</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+
+      </div>
+  </div>
+
+  <script src="layui/layui.js"></script>
+  <script src="data.js"></script>
+
+  <script id="demo" type="text/html">
+      {{#  layui.each(d.newslist, function(index, item){ }}
+      <div class="layui-colla-item layui-row">
+          <h2 class="layui-colla-title">
+              <span class="layui-col-md4">{{ item.provinceName }}</span>
+              <span class="layui-col-md2">{{item.confirmedCount}}</span>
+              <span class="layui-col-md2">{{item.currentConfirmedCount}}</span>
+              <span class="layui-col-md2">{{item.curedCount}}</span>
+              <span class="layui-col-md2">{{item.deadCount}}</span>
+          </h2>
+          <div class="layui-colla-content">
+              <!-- // 某个省的市，比如武汉、孝感、潜江。。。 -->
+              <table class="layui-table" lay-skin="nob">
+                  <colgroup>
+                      <col width="370">
+                      <col width="180">
+                      <col width="180">
+                      <col width="180">
+                      <col>
+                  </colgroup>
+                  <tbody>
+                      {{# layui.each(item.cities, function (i, e) {}}
+                      <tr>
+                          <td>{{e.cityName}}</td>
+                          <td>{{e.confirmedCount}}</td>
+                          <td>{{e.currentConfirmedCount}}</td>
+                          <td>{{e.curedCount}}</td>
+                          <td>{{e.deadCount}}</td>
+                      </tr>
+                      {{# }); }}
+
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      {{#  }); }}
+  </script>
+
+  <script>
+      layui.use('laytpl', function () {
+          var laytpl = layui.laytpl;
+
+          var getTpl = demo.innerHTML
+              , view = document.getElementById('view');
+          laytpl(getTpl).render(data, function (html) {
+              view.innerHTML = html;
+          });
+      });
+  </script>
+
+  <script>
+      //注意：折叠面板 依赖 element 模块，否则无法进行功能性操作
+      layui.use('element', function () {
+          var element = layui.element;
+
+          //…
+      });
+  </script>
+
+
+  <!-- 引入所需的JS文件 -->
+
+
+    <div class = "layui-main">
+      <div class="VirusHot_1-1-209_32AY4F">
+        <header class="VirusHot_1-1-209_3DaguJ">今日疫情热搜</header>
+        <section>
+        <a href="https://m.baidu.com/s?word=%E6%96%B0%E5%9E%8B%E8%82%BA%E7%82%8E%E5%AE%9E%E6%97%B6%E5%8A%A8%E6%80%81&amp;sa=osari_hotword_1&amp;mmsuse=sarifrom@osari_pc_3" data-click="{&quot;act&quot;:&quot;hotword_today_click&quot;}" class="VirusHot_1-1-209_23gLxy VirusHot_1-1-209_He-f46">
+        <div class="VirusHot_1-1-209_2fMOKn">
+        <span class="ItemSort_1-1-209_2MivJL ItemSort_1-1-209_3RnjLW">1</span><span>新型肺炎实时动态<span class="VirusHot_1-1-209_3BslNU">9159969</span></span></div></a>
+        <a href="https://m.baidu.com/s?word=%E7%BE%8E%E5%9B%BD%E8%BF%9B%E5%85%A5%E5%9B%BD%E5%AE%B6%E7%B4%A7%E6%80%A5%E7%8A%B6%E6%80%81&amp;sa=osari_hotword_2&amp;mmsuse=sarifrom@osari_pc_3" data-click="{&quot;act&quot;:&quot;hotword_today_click&quot;}" class="VirusHot_1-1-209_23gLxy VirusHot_1-1-209_2fMLzs">
+        <div class="VirusHot_1-1-209_2fMOKn"><span class="ItemSort_1-1-209_2MivJL ItemSort_1-1-209_UWl8aO">2</span><span>美国进入国家紧急状态<span class="VirusHot_1-1-209_3BslNU">8746990</span></span></div></a>
+        <a href="https://m.baidu.com/s?word=%E6%BB%9E%E7%95%99%E6%AD%A6%E6%B1%89%E4%BA%BA%E5%91%98%E5%8F%AF%E9%A2%86%E8%A1%A5%E5%8A%A9%E9%87%91&amp;sa=osari_hotword_3&amp;mmsuse=sarifrom@osari_pc_3" data-click="{&quot;act&quot;:&quot;hotword_today_click&quot;}" class="VirusHot_1-1-209_23gLxy VirusHot_1-1-209_2fMLzs">
+        <div class="VirusHot_1-1-209_2fMOKn"><span class="ItemSort_1-1-209_2MivJL ItemSort_1-1-209_SEAfrz">3</span><span>滞留武汉人员可领补助金<span class="VirusHot_1-1-209_3BslNU">8080213</span></span></div></a>
+        <a href="https://m.baidu.com/s?word=%E6%AD%A6%E6%B1%89%E5%B8%82%E6%B0%91%E5%8F%91%E7%8E%B0%E6%B1%BD%E8%BD%A6%E9%95%BF%E8%8D%89%E4%BA%86&amp;sa=osari_hotword_4&amp;mmsuse=sarifrom@osari_pc_3" data-click="{&quot;act&quot;:&quot;hotword_today_click&quot;}" class="VirusHot_1-1-209_23gLxy">
+        <div class="VirusHot_1-1-209_2fMOKn"><span class="ItemSort_1-1-209_2MivJL">4</span><span>武汉市民发现汽车长草了<span class="VirusHot_1-1-209_3BslNU">7645077</span></span></div></a>
+        <a href="https://m.baidu.com/s?word=%E5%BA%93%E9%87%8C%E4%B8%8D%E6%95%A2%E5%92%B3%E5%97%BD&amp;sa=osari_hotword_5&amp;mmsuse=sarifrom@osari_pc_3" data-click="{&quot;act&quot;:&quot;hotword_today_click&quot;}" class="VirusHot_1-1-209_23gLxy">
+        <div class="VirusHot_1-1-209_2fMOKn"><span class="ItemSort_1-1-209_2MivJL">5</span><span>库里不敢咳嗽<span class="VirusHot_1-1-209_3BslNU">7323580</span></span></div></a>
+        <a href="https://m.baidu.com/s?word=%E8%8B%B9%E6%9E%9C%E5%B0%86%E5%85%B3%E9%97%AD%E4%B8%AD%E5%9B%BD%E4%BB%A5%E5%A4%96%E6%89%80%E6%9C%89%E9%9B%B6%E5%94%AE%E5%BA%97&amp;sa=osari_hotword_6&amp;mmsuse=sarifrom@osari_pc_3" data-click="{&quot;act&quot;:&quot;hotword_today_click&quot;}" class="VirusHot_1-1-209_23gLxy">
+        <div class="VirusHot_1-1-209_2fMOKn"><span class="ItemSort_1-1-209_2MivJL">6</span><span>苹果将关闭中国以外所有零售店<span class="VirusHot_1-1-209_3BslNU">6892234</span></span></div></a>
+        <a href="https://m.baidu.com/s?word=%E5%B8%8C%E8%85%8A%E5%8F%96%E6%B6%88%E4%B8%9C%E4%BA%AC%E5%A5%A5%E8%BF%90%E7%81%AB%E7%82%AC%E4%BC%A0%E9%80%92&amp;sa=osari_hotword_7&amp;mmsuse=sarifrom@osari_pc_3" data-click="{&quot;act&quot;:&quot;hotword_today_click&quot;}" class="VirusHot_1-1-209_23gLxy">
+        <div class="VirusHot_1-1-209_2fMOKn"><span class="ItemSort_1-1-209_2MivJL">7</span><span>希腊取消东京奥运火炬传递<span class="VirusHot_1-1-209_3BslNU">6683914</span></span></div></a>
+        <a href="https://m.baidu.com/s?word=%E5%B9%BF%E4%B8%9C%E4%B8%80%E6%8F%B4%E9%84%82%E5%8C%BB%E5%B8%88%E9%81%87%E8%BD%A6%E7%A5%B8%E6%AE%89%E8%81%8C&amp;sa=osari_hotword_8&amp;mmsuse=sarifrom@osari_pc_3" data-click="{&quot;act&quot;:&quot;hotword_today_click&quot;}" class="VirusHot_1-1-209_23gLxy">
+        <div class="VirusHot_1-1-209_2fMOKn"><span class="ItemSort_1-1-209_2MivJL">8</span><span>广东一援鄂医师遇车祸殉职<span class="VirusHot_1-1-209_3BslNU">6479122</span></span></div></a>
+        </section>
+        <p class="VirusHot_1-1-209_fTZdJ5"><a data-click="{'act': 'hotword_todaymore_click'}" href="https://voice.baidu.com/act/virussearch/virussearch?from=osari_map&amp;tab=0&amp;infomore=1">查看更多</a></p>
+      </div>
+    </div>
+    <div class = "layui-main">
+      <div class="VirusHot_1-1-209_32AY4F">
+        <header class="VirusHot_1-1-209_3DaguJ">防疫知识热搜</header>
+        <section>
+        <a href="https://m.baidu.com/s?word=%E6%84%9F%E5%86%92%E4%B8%8E%E6%96%B0%E5%9E%8B%E5%86%A0%E7%8A%B6%E7%97%85%E6%AF%92%E5%8C%BA%E5%88%AB&amp;sa=osari_fangyi_1&amp;mmsuse=sarifrom@osari_pc_3" data-click="{&quot;act&quot;:&quot;hotword_knowledge_click&quot;}" class="VirusHot_1-1-209_23gLxy VirusHot_1-1-209_He-f46">
+        <div class="VirusHot_1-1-209_2fMOKn">
+        <span class="ItemSort_1-1-209_2MivJL ItemSort_1-1-209_3RnjLW">1</span><span>感冒与新型冠状病毒区别<span class="VirusHot_1-1-209_3BslNU">5650701</span></span></div></a>
+        <a href="https://m.baidu.com/s?word=%E4%BA%BA%E4%BD%93%E6%AD%A3%E5%B8%B8%E4%BD%93%E6%B8%A9%E8%8C%83%E5%9B%B4%E6%98%AF%E5%A4%9A%E5%B0%91&amp;sa=osari_fangyi_2&amp;mmsuse=sarifrom@osari_pc_3" data-click="{&quot;act&quot;:&quot;hotword_knowledge_click&quot;}" class="VirusHot_1-1-209_23gLxy">
+        <div class="VirusHot_1-1-209_2fMOKn"><span class="ItemSort_1-1-209_2MivJL ItemSort_1-1-209_UWl8aO">2</span><span>人体正常体温范围是多少<span class="VirusHot_1-1-209_3BslNU">4391450</span></span></div></a>
+        <a href="https://m.baidu.com/s?word=%E5%86%A0%E7%8A%B6%E7%97%85%E6%AF%92%E5%9C%A8%E5%A4%8F%E5%A4%A9%E6%AF%94%E8%BE%83%E4%B8%8D%E6%B4%BB%E8%B7%83&amp;sa=osari_fangyi_3&amp;mmsuse=sarifrom@osari_pc_3" data-click="{&quot;act&quot;:&quot;hotword_knowledge_click&quot;}" class="VirusHot_1-1-209_23gLxy">
+        <div class="VirusHot_1-1-209_2fMOKn"><span class="ItemSort_1-1-209_2MivJL ItemSort_1-1-209_SEAfrz">3</span><span>冠状病毒在夏天比较不活跃<span class="VirusHot_1-1-209_3BslNU">3289775</span></span></div></a>
+        <a href="https://m.baidu.com/s?word=%E6%9F%A5%E5%B0%94%E6%96%AF%E7%8E%8B%E5%AD%90%E5%8F%8C%E6%89%8B%E5%90%88%E5%8D%81%E4%BB%A3%E6%9B%BF%E6%8F%A1%E6%89%8B&amp;sa=osari_fangyi_4&amp;mmsuse=sarifrom@osari_pc_3" data-click="{&quot;act&quot;:&quot;hotword_knowledge_click&quot;}" class="VirusHot_1-1-209_23gLxy">
+        <div class="VirusHot_1-1-209_2fMOKn"><span class="ItemSort_1-1-209_2MivJL">4</span><span>查尔斯王子双手合十代替握手<span class="VirusHot_1-1-209_3BslNU">1529576</span></span></div></a>
+        <a href="https://m.baidu.com/s?word=%E4%BD%93%E6%B8%A9%E5%A4%9A%E5%B0%91%E5%BA%A6%E7%AE%97%E5%8F%91%E7%83%A7&amp;sa=osari_fangyi_5&amp;mmsuse=sarifrom@osari_pc_3" data-click="{&quot;act&quot;:&quot;hotword_knowledge_click&quot;}" class="VirusHot_1-1-209_23gLxy">
+        <div class="VirusHot_1-1-209_2fMOKn"><span class="ItemSort_1-1-209_2MivJL">5</span><span>体温多少度算发烧<span class="VirusHot_1-1-209_3BslNU">1026278</span></span></div></a>
+        </section>
+      </div>
+    </div>
+    <div class = "layui-main">
+      <div class="VirusHot_1-1-209_32AY4F VirusHot_1-1-209_3MnUmn">
+        <header class="VirusHot_1-1-209_3DaguJ">热搜谣言粉碎</header>
+        <section>
+        <a href="https://m.baidu.com/s?word=3%E6%9C%8816%E6%97%A5%E8%B5%B7%E5%A4%A9%E6%B4%A5%E6%81%A2%E5%A4%8D%E9%99%90%E8%A1%8C&amp;sa=osari_yaoyan_1&amp;mmsuse=sarifrom@osari_pc_3" data-click="{&quot;act&quot;:&quot;hotword_rumour_click&quot;}" class="VirusHot_1-1-209_23gLxy">
+        <div class="VirusHot_1-1-209_2fMOKn">
+        <span class="ItemSort_1-1-209_2MivJL ItemSort_1-1-209_3RnjLW">1</span><span class="Label_1-1-209_HrFA1x Label_1-1-209_2PWmgz Label_1-1-209_2hJLTc">谣言</span><span>3月16日起天津恢复限行<span class="VirusHot_1-1-209_3BslNU">5630149</span></span></div></a>
+        <a href="https://m.baidu.com/s?word=%E5%8C%97%E4%BA%AC3%E6%9C%8824%E6%97%A5%E5%85%A8%E9%9D%A2%E5%A4%8D%E5%B7%A5&amp;sa=osari_yaoyan_2&amp;mmsuse=sarifrom@osari_pc_3" data-click="{&quot;act&quot;:&quot;hotword_rumour_click&quot;}" class="VirusHot_1-1-209_23gLxy">
+        <div class="VirusHot_1-1-209_2fMOKn"><span class="ItemSort_1-1-209_2MivJL ItemSort_1-1-209_UWl8aO">2</span><span class="Label_1-1-209_HrFA1x Label_1-1-209_2PWmgz Label_1-1-209_2hJLTc">谣言</span><span>北京3月24日全面复工<span class="VirusHot_1-1-209_3BslNU">4730074</span></span></div></a>
+        <a href="https://m.baidu.com/s?word=%E7%BE%8E%E5%9B%BD%E7%96%BE%E6%8E%A7%E4%B8%AD%E5%BF%83%E9%9A%90%E7%9E%92%E7%A1%AE%E8%AF%8A%E4%BA%BA%E6%95%B0&amp;sa=osari_yaoyan_3&amp;mmsuse=sarifrom@osari_pc_3" data-click="{&quot;act&quot;:&quot;hotword_rumour_click&quot;}" class="VirusHot_1-1-209_23gLxy">
+        <div class="VirusHot_1-1-209_2fMOKn"><span class="ItemSort_1-1-209_2MivJL ItemSort_1-1-209_SEAfrz">3</span><span class="Label_1-1-209_HrFA1x Label_1-1-209_2PWmgz Label_1-1-209_2hJLTc">谣言</span><span>美国疾控中心隐瞒确诊人数<span class="VirusHot_1-1-209_3BslNU">3229808</span></span></div></a>
+        <a href="https://m.baidu.com/s?word=%E4%B8%8A%E6%B5%B716%E6%97%A5%E5%B1%85%E6%B0%91%E5%87%BA%E8%A1%8C%E6%AD%A3%E5%B8%B8%E5%8C%96&amp;sa=osari_yaoyan_4&amp;mmsuse=sarifrom@osari_pc_3" data-click="{&quot;act&quot;:&quot;hotword_rumour_click&quot;}" class="VirusHot_1-1-209_23gLxy">
+        <div class="VirusHot_1-1-209_2fMOKn"><span class="ItemSort_1-1-209_2MivJL">4</span><span class="Label_1-1-209_HrFA1x Label_1-1-209_2PWmgz Label_1-1-209_2hJLTc">谣言</span><span>上海16日居民出行正常化<span class="VirusHot_1-1-209_3BslNU">2128603</span></span></div></a>
+        <a href="https://m.baidu.com/s?word=%E6%8D%90%E7%BB%99%E6%97%A5%E6%9C%AC%E7%9A%84%E8%AF%95%E5%89%82%E7%9B%92%E8%A2%AB%E7%BE%8E%E5%9B%BD%E6%88%AA%E5%8F%96&amp;sa=osari_yaoyan_5&amp;mmsuse=sarifrom@osari_pc_3" data-click="{&quot;act&quot;:&quot;hotword_rumour_click&quot;}" class="VirusHot_1-1-209_23gLxy">
+        <div class="VirusHot_1-1-209_2fMOKn"><span class="ItemSort_1-1-209_2MivJL">5</span><span class="Label_1-1-209_HrFA1x Label_1-1-209_2PWmgz Label_1-1-209_2hJLTc">谣言</span><span>捐给日本的试剂盒被美国截取<span class="VirusHot_1-1-209_3BslNU">1828549</span></span></div></a>
+        </section>
+      </div>
+    </div>
+    <script type="layui/layui.js">
+    </script>
+    <script type="text/javascript">
+    var oText="2020-02-1";
+    var oBtn;
+    var xxx="http://api.tianapi.com/txapi/ncovcity/index?key=5d4fb67d8bd16c1fd371311e334a4bd0&";
+    xxx=xxx+oText.value;
+    window.onload=function() {
+      oBtn=document.getElementById("oBtn1");
+      var oText=document.getElementById("select1");
+      oBtn.onclick=function() {
+      xxx=xxx+oText.value;
+      $.get(xxx,
+          function (data, status) {
+            var arr = [];
+            // 处理数据，成地图需要的数据结构
+            data.newslist.forEach(item => {
+                arr.push({
+                    name: item.provinceShortName,
+                    value: item.confirmedCount,
+                    zuixin: item.currentConfirmedCount,
+                    zhiyu: item.curedCount,
+                    siwang: item.deadCount
+                });
+            });
+            arr.push({
+                name: '南海诸岛',
+                value: '未统计',
+                zuixin: '未统计',
+                zhiyu: '未统计',
+                siwang: '未统计'
+            });
+            console.log(arr);
+
+            var myChart = echarts.init(document.getElementById('map'));
+
+            // 2. 配置
+            var option = {
+                // 标题部分
+                title: {
+                    text: '抗击疫情',
+                    textStyle: {
+                        fontSize: 28
+                    },
+                    left: 'center',
+                    subtextStyle: {
+                        fontSize: 14
+                    }
+                },
+                series: [{
+                    type: 'map',
+                    map: 'china',
+                    data: arr,
+                    label: {
+                        show: true
+                    }
+                }],
+                tooltip: { // 鼠标悬浮提示
+                    formatter: function (params) { // 允许我们自定义悬浮提示的内容
+                        console.log(params);
+                        // return 你需要提示的内容
+                        return `累计确诊：${params.data.value}<br/>
+                        当前确诊：${params.data.zuixin}<br/>
+                        治愈：${params.data.zhiyu}<br/>
+                        死亡：${params.data.siwang}<br/>
+                        `;
+                    }
+                },
+                visualMap: {
+                    type: 'piecewise',
+                    pieces: [
+                        { gt: 10000 }, // 大于10000
+                        { gt: 5000, lte: 10000 },
+                        { gt: 1000, lte: 5000 },
+                        { gt: 500, lte: 1000 },  // (900, 1500]
+                        { gt: 100, lte: 500 },  // (310, 1000]
+                        { gt: 10, lte: 100 },   // (200, 300]
+                        { gt: 0, lte: 10 },       // (0, 10]
+                    ],
+                    inRange: {
+                        color: ['#ffcfc3', '#eda595', '#d27b64', '#d5462a', '#a8352e', '#6a211d', '#562a2a']
+                    }
+                }
+            };
+
+          myChart.setOption(option);
+          myChart.on('click', function (params) {
+            //  alert(params.name);
+            var provinceName =params.name;
+        //    window.location.replace("安徽.html");
+            provinceName=provinceName+".html";
+            window.open(provinceName);
+          });
+          });
+      }
+    }
+
+    </script>
+
+
+  </body>
+
+</html>
