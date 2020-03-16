@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>折线图</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
     <script src="echarts.min.js"></script>
 </head>
 <body>
 <!--为echarts准备一个容器，画图就画在里面-->
-<div id="box" style="width: 600px;height: 600px;"></div>
+<div class="layui-main" id="box" style="width: 600px;height: 600px;"></div>
 <script>
     //初始化ehcharts实例
     var myChart=echarts.init(document.getElementById("box"));

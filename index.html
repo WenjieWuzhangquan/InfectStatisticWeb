@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="layui/css/layui.css">
     <script src="echarts.min.js"></script>
     <script src="china.js"></script>
-    <script src="jquery-1.12.4.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
     <script src="layui/lay/modules/layer.js">
 
     </script>
@@ -201,6 +201,9 @@
         myChart.on('click', function (params) {
           //  alert(params.name);
           var provinceName =params.name;
+      //    window.location.replace("安徽.html");
+          provinceName=provinceName+".html";
+          window.open(provinceName);
         });
         });
 
